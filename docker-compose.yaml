@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  dagster_server:
+    build: app/
+    container_name: "dagster-app-demo"
+    environment:
+      DAGSTER_HOME: /DAGSTER_HOME
+    volumes:
+      - ./app/dagster_home_dir:/DAGSTER_HOME:z
+    ports:
+      - "3000:3000"
+    networks:
+      - default
+  redis_demo:
+    image: redis
+    container_name: "redis-demo"
+    volumes:
+      - ./redis_db/data:/data
+    expose:
+      - "6379"
+  postgresql_demo:
+    image: "postgres"
+    container_name: pg-docker-test
+    networks:
+      - default
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./postgresql/database.env # configure postgres
+    volumes:
+      - $PSQL_DATA:/var/lib/postgresql/data/ # persist data even if container shuts down
+      - ./postgresql/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+networks:
+  default:

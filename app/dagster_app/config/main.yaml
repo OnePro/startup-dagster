@@ -1,0 +1,7 @@
+resources:
+  main_config:
+    config:
+      demo_config_group:
+        source_dir: /tmp/src_dir
+        destination_dir: /tmp/dest_dir
+        limit: 10
